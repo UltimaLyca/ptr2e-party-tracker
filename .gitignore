@@ -1,0 +1,8 @@
+# AI-related files - do not commit
+CLAUDE.md
+claude.md
+.claude/
+.claude*
+ANTHROPIC.md
+AI_ATTRIBUTION*
+**/co-authored-by*
