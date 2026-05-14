@@ -1,0 +1,18 @@
+{
+  "id": "ptr2e-party-tracker",
+  "title": "PTR2e Party Tracker",
+  "description": "Adds a partyStats.active token bar attribute that tracks the number of non-fainted Pokemon in a trainer's party.",
+  "version": "1.0.1",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "Affan"
+    }
+  ],
+  "esmodules": ["ptr2e-party-tracker.js"],
+  "manifest": "https://github.com/UltimaLyca/ptr2e-party-tracker/releases/latest/download/module.json",
+  "download": "https://github.com/UltimaLyca/ptr2e-party-tracker/releases/latest/download/ptr2e-party-tracker.zip"
+}
