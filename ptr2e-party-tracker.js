@@ -2,7 +2,7 @@
 // Adds partyStats.active bar attribute to track non-fainted Pokemon in party
 
 const MODULE_ID = "ptr2e-party-tracker";
-const MODULE_VERSION = "1.1.0";
+const MODULE_VERSION = "1.2.0";
 
 console.log(`${MODULE_ID} | Script loaded (v${MODULE_VERSION})`);
 
