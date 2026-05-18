@@ -2,12 +2,26 @@
 // Adds partyStats.active bar attribute to track non-fainted Pokemon in party
 
 const MODULE_ID = "ptr2e-party-tracker";
-const MODULE_VERSION = "1.0.1";
+const MODULE_VERSION = "1.1.0";
 
 console.log(`${MODULE_ID} | Script loaded (v${MODULE_VERSION})`);
 
 Hooks.once("init", () => {
   console.log(`${MODULE_ID} | Initializing v${MODULE_VERSION}`);
+
+  game.settings.register(MODULE_ID, "partyCap", {
+    name: "Party Cap",
+    hint: "Maximum number of Pokemon in a party (used for bar display)",
+    scope: "world",
+    config: true,
+    type: Number,
+    default: 6,
+    range: {
+      min: 1,
+      max: 20,
+      step: 1
+    }
+  });
 });
 
 Hooks.once("setup", () => {
@@ -33,7 +47,7 @@ Hooks.once("setup", () => {
       }
 
       let value = 0;
-      let max = 6;
+      let max = game.settings.get(MODULE_ID, "partyCap");
 
       try {
         const partyData = actor.party;

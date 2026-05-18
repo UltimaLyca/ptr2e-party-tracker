@@ -2,7 +2,15 @@
   "id": "ptr2e-party-tracker",
   "title": "PTR2e Party Tracker",
   "description": "Adds a partyStats.active token bar attribute that tracks the number of non-fainted Pokemon in a trainer's party.",
-  "version": "1.0.1",
+  "version": "1.1.0",
+  "relationships": {
+    "requires": [
+      {
+        "id": "barbrawl",
+        "type": "module"
+      }
+    ]
+  },
   "compatibility": {
     "minimum": "14",
     "verified": "14"
