@@ -1,0 +1,69 @@
+/* PTR2e Party Tracker - Configuration UI Styles */
+
+.ptr2e-party-tracker-config {
+  min-width: 400px;
+}
+
+.ptr2e-party-tracker-config .form-group {
+  margin-bottom: 0.5rem;
+}
+
+.ptr2e-party-tracker-config .form-group label {
+  flex: 0 0 150px;
+}
+
+.ptr2e-party-tracker-config .form-group .hint {
+  flex: 0 0 100%;
+  font-size: 0.85em;
+  color: var(--color-text-dark-secondary);
+  margin-top: 0.25rem;
+}
+
+.ptr2e-party-tracker-config .tab-content {
+  padding: 1rem 0;
+}
+
+.ptr2e-party-tracker-icon-picker {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.ptr2e-party-tracker-icon-picker .icon-option {
+  width: 48px;
+  height: 48px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+}
+
+.ptr2e-party-tracker-icon-picker .icon-option:hover {
+  border-color: var(--color-border-highlight);
+}
+
+.ptr2e-party-tracker-icon-picker .icon-option.selected {
+  border-color: var(--color-border-highlight);
+  background: var(--color-bg-option);
+}
+
+.ptr2e-party-tracker-icon-picker .icon-option img {
+  max-width: 36px;
+  max-height: 36px;
+}
+
+.ptr2e-party-tracker-preview {
+  border: 1px solid var(--color-border-light);
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: var(--color-bg-option);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}

@@ -1,0 +1,208 @@
+{
+  "ptr2e-party-tracker": {
+    "config": {
+      "title": "Party Tracker Configuration",
+      "partyTab": "Party",
+      "equipmentTab": "Equipment",
+      "iconsTab": "Icons",
+      "iconsNote": "Customize the icons used for party status display.",
+      "selectIcon": "Select Icon",
+      "resetDefaults": "Reset to Defaults",
+      "resetTitle": "Reset Settings",
+      "resetContent": "Are you sure you want to reset all settings to their default values?",
+      "resetSuccess": "Settings have been reset to defaults."
+    },
+    "controls": {
+      "config": "Party Tracker Settings"
+    },
+    "iconPicker": {
+      "title": "Select Icon",
+      "defaultIcons": "Default Icons",
+      "customIcon": "Custom Icon",
+      "browse": "Browse",
+      "select": "Select"
+    },
+    "modifierPicker": {
+      "title": "Edit Status Modifier",
+      "tint": "Color Tint",
+      "tintHint": "Color overlay applied to the base icon",
+      "badge": "Badge Icon",
+      "badgeHint": "Small icon overlay indicating the status"
+    },
+    "settings": {
+      "partyTrackerEnabled": {
+        "name": "Enable Party Tracker",
+        "hint": "Show the party status tracker on trainer tokens"
+      },
+      "partyTrackerPosition": {
+        "name": "Party Tracker Position",
+        "hint": "Where to display the party tracker relative to the token"
+      },
+      "partyTrackerOffsetX": {
+        "name": "Party Tracker X Offset",
+        "hint": "Horizontal offset from the anchor position (pixels)"
+      },
+      "partyTrackerOffsetY": {
+        "name": "Party Tracker Y Offset",
+        "hint": "Vertical offset from the anchor position (pixels)"
+      },
+      "partyTrackerIconSize": {
+        "name": "Party Tracker Icon Size",
+        "hint": "Size of each party status icon (pixels)"
+      },
+      "partyTrackerSpacing": {
+        "name": "Party Tracker Spacing",
+        "hint": "Space between party status icons (pixels)"
+      },
+      "partyTrackerDirection": {
+        "name": "Party Tracker Direction",
+        "hint": "Layout direction for party status icons"
+      },
+      "partyTrackerVisibility": {
+        "name": "Party Tracker Visibility",
+        "hint": "When the party tracker should be visible"
+      },
+      "partyTrackerUseSprites": {
+        "name": "Use Pokemon Sprites",
+        "hint": "Display Pokemon sprites instead of pokeball icons"
+      },
+      "equipmentTrackerEnabled": {
+        "name": "Enable Equipment Tracker",
+        "hint": "Show the equipment/belt item tracker on trainer tokens"
+      },
+      "equipmentTrackerPosition": {
+        "name": "Equipment Tracker Position",
+        "hint": "Where to display the equipment tracker relative to the token"
+      },
+      "equipmentTrackerOffsetX": {
+        "name": "Equipment Tracker X Offset",
+        "hint": "Horizontal offset from the anchor position (pixels)"
+      },
+      "equipmentTrackerOffsetY": {
+        "name": "Equipment Tracker Y Offset",
+        "hint": "Vertical offset from the anchor position (pixels)"
+      },
+      "equipmentTrackerIconSize": {
+        "name": "Equipment Tracker Icon Size",
+        "hint": "Size of each equipment icon (pixels)"
+      },
+      "equipmentTrackerSpacing": {
+        "name": "Equipment Tracker Spacing",
+        "hint": "Space between equipment icons (pixels)"
+      },
+      "equipmentTrackerDirection": {
+        "name": "Equipment Tracker Direction",
+        "hint": "Layout direction for equipment icons"
+      },
+      "equipmentTrackerVisibility": {
+        "name": "Equipment Tracker Visibility",
+        "hint": "When the equipment tracker should be visible"
+      },
+      "equipmentTrackerShowBeltFirst": {
+        "name": "Show Belt Items First",
+        "hint": "Display belt items before other equipped items"
+      },
+      "equipmentTrackerShowStackCount": {
+        "name": "Show Stack Counts",
+        "hint": "Display quantity for stacked items"
+      },
+      "equipmentTrackerMaxItems": {
+        "name": "Max Equipment Items",
+        "hint": "Maximum number of equipment items to display"
+      },
+      "equipmentTrackerShowBelt": {
+        "name": "Show Belt Items",
+        "hint": "Display items in the belt slot"
+      },
+      "equipmentTrackerShowHeld": {
+        "name": "Show Held Items",
+        "hint": "Display items being held"
+      },
+      "equipmentTrackerShowWorn": {
+        "name": "Show Worn Items",
+        "hint": "Display worn items (armor, clothing)"
+      },
+      "equipmentTrackerShowAccessory": {
+        "name": "Show Accessories",
+        "hint": "Display equipped accessories"
+      },
+      "equipmentTrackerShowBackpack": {
+        "name": "Show Backpack Items",
+        "hint": "Display items in backpack slots"
+      },
+      "equipmentTrackerShowStowed": {
+        "name": "Show Stowed Items",
+        "hint": "Display stowed (not equipped) items"
+      },
+      "partyCap": {
+        "name": "Party Cap",
+        "hint": "Maximum number of Pokemon slots to display"
+      },
+      "defaultsHumanoid": {
+        "name": "Humanoid Defaults",
+        "hint": "Default tracker settings for humanoid actors"
+      },
+      "defaultsPokemon": {
+        "name": "Pokemon Defaults",
+        "hint": "Default tracker settings for pokemon actors"
+      }
+    },
+    "positions": {
+      "top": "Top",
+      "bottom": "Bottom",
+      "left": "Left",
+      "right": "Right"
+    },
+    "directions": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "visibility": {
+      "always": "Always Visible",
+      "hover": "On Hover",
+      "owner": "Owner Only",
+      "ownerHover": "Owner + Hover for Others",
+      "gm": "GM Only",
+      "control": "When Controlled",
+      "none": "Hidden"
+    },
+    "status": {
+      "ok": "Healthy",
+      "fainted": "Fainted",
+      "poisoned": "Poisoned",
+      "burned": "Burned",
+      "paralyzed": "Paralyzed",
+      "frozen": "Frozen",
+      "asleep": "Asleep",
+      "confused": "Confused",
+      "empty": "Empty Slot"
+    },
+    "tokenConfig": {
+      "tabName": "Party Tracker",
+      "description": "Configure how the party and equipment trackers appear on this token.",
+      "partyTab": "Party",
+      "equipmentTab": "Equipment",
+      "enabled": "Enabled",
+      "position": "Position",
+      "direction": "Direction",
+      "visibility": "Visibility",
+      "iconSize": "Icon Size",
+      "spacing": "Spacing",
+      "offsetX": "X Offset",
+      "offsetY": "Y Offset",
+      "useSprites": "Use Pokemon Sprites",
+      "maxItems": "Max Items",
+      "showStackCount": "Show Stack Counts",
+      "slotsToShow": "Slots to Display",
+      "showBelt": "Belt",
+      "showHeld": "Held",
+      "showWorn": "Worn",
+      "showAccessory": "Accessory",
+      "showBackpack": "Backpack",
+      "showStowed": "Stowed",
+      "resetDefaults": "Reset to Defaults",
+      "saveAsDefaults": "Save as Default for",
+      "savedAsDefaults": "Saved as defaults for {type} actors"
+    }
+  }
+}

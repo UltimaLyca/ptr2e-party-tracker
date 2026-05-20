@@ -1,0 +1,31 @@
+<div class="icon-picker-content">
+  <h3>{{localize "ptr2e-party-tracker.iconPicker.defaultIcons"}}</h3>
+
+  <div class="icon-grid">
+    {{#each defaultIcons}}
+    <div class="icon-option {{#if (eq this.path ../currentIcon)}}selected{{/if}}" data-path="{{this.path}}">
+      <img src="{{this.path}}" alt="{{this.label}}" title="{{this.label}}">
+    </div>
+    {{/each}}
+  </div>
+
+  <hr>
+
+  <h3>{{localize "ptr2e-party-tracker.iconPicker.customIcon"}}</h3>
+
+  <div class="form-group">
+    <input type="text" class="custom-path-input" placeholder="modules/your-module/icons/custom.svg" value="{{customPath}}">
+    <button type="button" class="browse-btn">
+      <i class="fas fa-folder-open"></i> {{localize "ptr2e-party-tracker.iconPicker.browse"}}
+    </button>
+  </div>
+
+  <footer class="flexrow">
+    <button type="button" class="cancel-btn">
+      <i class="fas fa-times"></i> {{localize "Cancel"}}
+    </button>
+    <button type="button" class="confirm-btn">
+      <i class="fas fa-check"></i> {{localize "ptr2e-party-tracker.iconPicker.select"}}
+    </button>
+  </footer>
+</div>

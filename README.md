@@ -1,6 +1,44 @@
-# PTR2e Party Tracker
+# PTR2e Party Tracker v2.0.0
 
-A Foundry VTT module for the PTR2e system that adds a token bar attribute to track non-fainted Pokemon in a trainer's party.
+A visual party tracker for PTR2e that displays Pokemon status, equipment, and belt items as customizable icon bars on tokens.
+
+## Features
+
+### Party Status Tracker
+- Visual pokeball row showing each party slot (healthy, afflicted, fainted, or empty)
+- Major affliction indicators with color tints and badge overlays:
+  - Poisoned (purple tint + badge)
+  - Badly Poisoned (dark purple tint + badge)
+  - Burned (red tint + badge)
+  - Paralyzed (yellow tint + badge)
+  - Frozen (blue tint + badge)
+  - Asleep (dark tint + badge)
+- Uses PTR2e's native condition icons for badges
+- Multiple afflictions spread around the pokeball icon
+- Option to display Pokemon sprites instead of pokeball icons
+- Scales with configurable party cap (default 6)
+
+### Equipment/Belt Tracker
+- Separate icon row for equipped items and belt items
+- Shows item icons with stack counts
+- Belt items displayed first (configurable)
+- Maximum item display limit
+
+### Customization
+- Position: top, bottom, left, or right of token
+- Offset X/Y adjustments
+- Icon size and spacing
+- Horizontal or vertical layout
+- Custom icons via file picker
+
+### Visibility Options
+- Always visible
+- On hover only
+- Owner only
+- Owner + hover for others
+- GM only
+- When controlled
+- Hidden
 
 ## Installation
 
@@ -12,38 +50,30 @@ A Foundry VTT module for the PTR2e system that adds a token bar attribute to tra
 3. Click **Install**
 4. Enable the module in your world
 
-**Requires:** [Bar Brawl](https://foundryvtt.com/packages/barbrawl)
+## Configuration
 
-## Usage
+### Module Settings
+Access via **Settings** > **Module Settings** > **PTR2e Party Tracker**, or click the pokeball icon in the token controls.
 
-1. Select a trainer token and open the token configuration
-2. Set a bar attribute to `partyStats.active`
-3. The bar will display the count of party Pokemon with HP > 0
-
-## Settings
-
-- **Party Cap** - Adjust the maximum party size for the bar display (default: 6). Found in Module Settings.
-
-## Included Bar Images
-
-The module includes Pokeball-themed bar images in the `images/` folder:
-
-- `Pokeball Empty V1.webp` - Empty pokeball (background)
-- `Pokeball Full V1.webp` - Filled pokeball variant 1
-- `Pokeball Full V2.webp` - Filled pokeball variant 2
-
-**Important:** These images are designed for the standard party cap of 6. Place the party tracker bar on the **left or right side** of the token - the way Bar Brawl fills the bar will not display correctly if positioned on top or bottom.
-
-You can use custom images to create your own version or to accommodate a different party cap.
-
-## Features
-
-- Tracks non-fainted Pokemon count (HP > 0) in trainer's party
-- Auto-updates when party Pokemon HP changes
-- Configurable party cap (default: 6)
+### Token HUD
+Right-click a trainer token to access quick configuration.
 
 ## Compatibility
 
-- Foundry VTT v14+
-- PTR2e system
-- Bar Brawl (required)
+- **Foundry VTT:** v14+
+- **System:** PTR2e
+- **Dependencies:** None - fully standalone module
+
+## Migration from v1.x
+
+Version 2.0.0 is a complete rewrite:
+- No dependencies required (Bar Brawl no longer needed)
+- New canvas overlay rendering system
+- Per-token configuration via token settings
+- Uses PTR2e's native condition icons
+
+**Migration:** Clean install recommended. v1.x settings will not carry over.
+
+## License
+
+MIT

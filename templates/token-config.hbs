@@ -1,0 +1,187 @@
+<div class="ptr2e-party-tracker-config">
+  <p class="notes">{{localize "ptr2e-party-tracker.tokenConfig.description"}}</p>
+
+  <nav class="sheet-tabs tabs" data-group="tracker-tabs">
+    <a class="item active" data-tab="party">{{localize "ptr2e-party-tracker.tokenConfig.partyTab"}}</a>
+    <a class="item" data-tab="equipment">{{localize "ptr2e-party-tracker.tokenConfig.equipmentTab"}}</a>
+  </nav>
+
+  <section class="tab-content">
+    <!-- Party Tracker Tab -->
+    <div class="tab active" data-tab="party" data-group="tracker-tabs">
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.enabled"}}</label>
+        <input type="checkbox" name="party.enabled" {{#if partyTracker.enabled}}checked{{/if}}>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.position"}}</label>
+        <select name="party.position">
+          {{#each positions}}
+          <option value="{{this.value}}" {{#if (eq this.value ../partyTracker.position)}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.direction"}}</label>
+        <select name="party.direction">
+          {{#each directions}}
+          <option value="{{this.value}}" {{#if (eq this.value ../partyTracker.direction)}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.visibility"}}</label>
+        <select name="party.visibility">
+          {{#each visibility}}
+          <option value="{{this.value}}" {{#if (eq this.value ../partyTracker.visibility)}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.iconSize"}}</label>
+        <input type="number" name="party.iconSize" value="{{partyTracker.iconSize}}" min="12" max="64" step="2">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.spacing"}}</label>
+        <input type="number" name="party.spacing" value="{{partyTracker.spacing}}" min="0" max="20" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.offsetX"}}</label>
+        <input type="number" name="party.offsetX" value="{{partyTracker.offsetX}}" min="-100" max="100" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.offsetY"}}</label>
+        <input type="number" name="party.offsetY" value="{{partyTracker.offsetY}}" min="-100" max="100" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.useSprites"}}</label>
+        <input type="checkbox" name="party.useSprites" {{#if partyTracker.useSprites}}checked{{/if}}>
+      </div>
+
+      <div class="form-group actions">
+        <button type="button" class="reset-defaults" data-tracker="partyTracker">
+          <i class="fas fa-undo"></i> {{localize "ptr2e-party-tracker.tokenConfig.resetDefaults"}}
+        </button>
+      </div>
+    </div>
+
+    <!-- Equipment Tracker Tab -->
+    <div class="tab" data-tab="equipment" data-group="tracker-tabs">
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.enabled"}}</label>
+        <input type="checkbox" name="equipment.enabled" {{#if equipmentTracker.enabled}}checked{{/if}}>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.position"}}</label>
+        <select name="equipment.position">
+          {{#each positions}}
+          <option value="{{this.value}}" {{#if (eq this.value ../equipmentTracker.position)}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.direction"}}</label>
+        <select name="equipment.direction">
+          {{#each directions}}
+          <option value="{{this.value}}" {{#if (eq this.value ../equipmentTracker.direction)}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.visibility"}}</label>
+        <select name="equipment.visibility">
+          {{#each visibility}}
+          <option value="{{this.value}}" {{#if (eq this.value ../equipmentTracker.visibility)}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.iconSize"}}</label>
+        <input type="number" name="equipment.iconSize" value="{{equipmentTracker.iconSize}}" min="12" max="64" step="2">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.spacing"}}</label>
+        <input type="number" name="equipment.spacing" value="{{equipmentTracker.spacing}}" min="0" max="20" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.offsetX"}}</label>
+        <input type="number" name="equipment.offsetX" value="{{equipmentTracker.offsetX}}" min="-100" max="100" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.offsetY"}}</label>
+        <input type="number" name="equipment.offsetY" value="{{equipmentTracker.offsetY}}" min="-100" max="100" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.maxItems"}}</label>
+        <input type="number" name="equipment.maxItems" value="{{equipmentTracker.maxItems}}" min="1" max="20" step="1">
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "ptr2e-party-tracker.tokenConfig.showStackCount"}}</label>
+        <input type="checkbox" name="equipment.showStackCount" {{#if equipmentTracker.showStackCount}}checked{{/if}}>
+      </div>
+
+      <fieldset>
+        <legend>{{localize "ptr2e-party-tracker.tokenConfig.slotsToShow"}}</legend>
+
+        <div class="form-group">
+          <label>{{localize "ptr2e-party-tracker.tokenConfig.showBelt"}}</label>
+          <input type="checkbox" name="equipment.showBelt" {{#if equipmentTracker.showBelt}}checked{{/if}}>
+        </div>
+
+        <div class="form-group">
+          <label>{{localize "ptr2e-party-tracker.tokenConfig.showHeld"}}</label>
+          <input type="checkbox" name="equipment.showHeld" {{#if equipmentTracker.showHeld}}checked{{/if}}>
+        </div>
+
+        <div class="form-group">
+          <label>{{localize "ptr2e-party-tracker.tokenConfig.showWorn"}}</label>
+          <input type="checkbox" name="equipment.showWorn" {{#if equipmentTracker.showWorn}}checked{{/if}}>
+        </div>
+
+        <div class="form-group">
+          <label>{{localize "ptr2e-party-tracker.tokenConfig.showAccessory"}}</label>
+          <input type="checkbox" name="equipment.showAccessory" {{#if equipmentTracker.showAccessory}}checked{{/if}}>
+        </div>
+
+        <div class="form-group">
+          <label>{{localize "ptr2e-party-tracker.tokenConfig.showBackpack"}}</label>
+          <input type="checkbox" name="equipment.showBackpack" {{#if equipmentTracker.showBackpack}}checked{{/if}}>
+        </div>
+
+        <div class="form-group">
+          <label>{{localize "ptr2e-party-tracker.tokenConfig.showStowed"}}</label>
+          <input type="checkbox" name="equipment.showStowed" {{#if equipmentTracker.showStowed}}checked{{/if}}>
+        </div>
+      </fieldset>
+
+      <div class="form-group actions">
+        <button type="button" class="reset-defaults" data-tracker="equipmentTracker">
+          <i class="fas fa-undo"></i> {{localize "ptr2e-party-tracker.tokenConfig.resetDefaults"}}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="form-group actions save-defaults-section">
+    <button type="button" class="save-type-defaults">
+      <i class="fas fa-save"></i> {{localize "ptr2e-party-tracker.tokenConfig.saveAsDefaults"}} ({{actorType}})
+    </button>
+  </div>
+</div>

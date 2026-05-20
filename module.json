@@ -1,19 +1,20 @@
 {
   "id": "ptr2e-party-tracker",
   "title": "PTR2e Party Tracker",
-  "description": "Adds a partyStats.active token bar attribute that tracks the number of non-fainted Pokemon in a trainer's party.",
-  "version": "1.2.0",
-  "relationships": {
-    "requires": [
-      {
-        "id": "barbrawl",
-        "type": "module"
-      }
-    ]
-  },
+  "description": "A visual party tracker for PTR2e that displays Pokemon status, equipment, and belt items as customizable icon bars on tokens.",
+  "version": "2.0.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "ptr2e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
   },
   "authors": [
     {
@@ -21,6 +22,14 @@
     }
   ],
   "esmodules": ["ptr2e-party-tracker.js"],
+  "styles": ["styles/tracker.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
   "manifest": "https://github.com/UltimaLyca/ptr2e-party-tracker/releases/latest/download/module.json",
   "download": "https://github.com/UltimaLyca/ptr2e-party-tracker/releases/latest/download/ptr2e-party-tracker.zip"
 }

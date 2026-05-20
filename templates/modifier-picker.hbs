@@ -1,0 +1,28 @@
+<form class="modifier-picker-content">
+  <h3>{{localize "ptr2e-party-tracker.status." condition}}</h3>
+
+  <div class="form-group">
+    <label>{{localize "ptr2e-party-tracker.modifierPicker.tint"}}</label>
+    <input type="color" class="tint-input" value="{{tint}}">
+    <p class="hint">{{localize "ptr2e-party-tracker.modifierPicker.tintHint"}}</p>
+  </div>
+
+  <div class="form-group">
+    <label>{{localize "ptr2e-party-tracker.modifierPicker.badge"}}</label>
+    <div class="flexrow">
+      <input type="text" class="badge-input" value="{{badge}}" placeholder="path/to/badge.svg">
+      <button type="button" class="browse-badge">
+        <i class="fas fa-folder-open"></i>
+      </button>
+    </div>
+  </div>
+
+  <footer class="flexrow">
+    <button type="button" class="cancel-btn">
+      <i class="fas fa-times"></i> {{localize "Cancel"}}
+    </button>
+    <button type="button" class="save-btn">
+      <i class="fas fa-save"></i> {{localize "Save"}}
+    </button>
+  </footer>
+</form>

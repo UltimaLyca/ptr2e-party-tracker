@@ -1,116 +1,105 @@
-// PTR2e Party Tracker Module v1.0.1
-// Adds partyStats.active bar attribute to track non-fainted Pokemon in party
+/**
+ * PTR2e Party Tracker v2.0.0
+ * A visual party tracker for PTR2e that displays Pokemon status,
+ * equipment, and belt items as customizable icon bars on tokens.
+ */
+
+import { registerSettings } from "./scripts/settings.js";
+import { TrackerRenderer } from "./scripts/tracker.js";
+import { registerConfigButton } from "./scripts/config-app.js";
+import { registerTokenConfig } from "./scripts/token-config.js";
 
 const MODULE_ID = "ptr2e-party-tracker";
-const MODULE_VERSION = "1.2.0";
+const MODULE_VERSION = "2.0.0";
 
-console.log(`${MODULE_ID} | Script loaded (v${MODULE_VERSION})`);
+let trackerRenderer = null;
 
 Hooks.once("init", () => {
   console.log(`${MODULE_ID} | Initializing v${MODULE_VERSION}`);
-
-  game.settings.register(MODULE_ID, "partyCap", {
-    name: "Party Cap",
-    hint: "Maximum number of Pokemon in a party (used for bar display)",
-    scope: "world",
-    config: true,
-    type: Number,
-    default: 6,
-    range: {
-      min: 1,
-      max: 20,
-      step: 1
-    }
-  });
+  registerSettings();
 });
 
 Hooks.once("setup", () => {
-  console.log(`${MODULE_ID} | Setup starting v${MODULE_VERSION}`);
-
-  // Override getBarAttribute on TokenDocument to handle partyStats.active
-  const TokenDocClass = CONFIG.Token.documentClass;
-  console.log(`${MODULE_ID} | TokenDocument class:`, TokenDocClass.name);
-
-  const originalGetBarAttribute = TokenDocClass.prototype.getBarAttribute;
-
-  TokenDocClass.prototype.getBarAttribute = function(barName, options = {}) {
-    const attribute = options.alternative || this[barName]?.attribute;
-
-    if (attribute === "partyStats.active") {
-      const actor = this.actor;
-      console.log(`${MODULE_ID} | getBarAttribute called for partyStats.active`);
-      console.log(`${MODULE_ID} | Actor:`, actor?.name, actor?.id);
-
-      if (!actor) {
-        console.log(`${MODULE_ID} | No actor found`);
-        return null;
-      }
-
-      let value = 0;
-      let max = game.settings.get(MODULE_ID, "partyCap");
-
-      try {
-        const partyData = actor.party;
-        console.log(`${MODULE_ID} | actor.party:`, partyData);
-
-        if (partyData?.party) {
-          // Filter out the trainer themselves from the party count
-          const partyMembers = partyData.party.filter(p => p !== actor && p.id !== actor.id);
-          console.log(`${MODULE_ID} | Party members:`, partyMembers.map(p => ({name: p.name, hp: p.system?.health?.value})));
-          value = partyMembers.filter(p => p.system?.health?.value > 0).length;
-          console.log(`${MODULE_ID} | Non-fainted count: ${value}/${max}`);
-        } else {
-          console.log(`${MODULE_ID} | No party data found`);
-        }
-      } catch (e) {
-        console.warn(`${MODULE_ID} | Error calculating party stats:`, e);
-      }
-
-      return {
-        type: "bar",
-        attribute: "partyStats.active",
-        value: value,
-        max: max,
-        editable: false
-      };
-    }
-
-    return originalGetBarAttribute.call(this, barName, options);
-  };
-
-  console.log(`${MODULE_ID} | getBarAttribute patched v${MODULE_VERSION}`);
+  console.log(`${MODULE_ID} | Setup v${MODULE_VERSION}`);
+  registerConfigButton();
+  registerTokenConfig();
 });
 
 Hooks.once("ready", () => {
   console.log(`${MODULE_ID} | Ready v${MODULE_VERSION}`);
 
-  // Add partyStats.active to trackable attributes for the dropdown
-  if (CONFIG.Actor.trackableAttributes?.humanoid?.bar) {
-    if (!CONFIG.Actor.trackableAttributes.humanoid.bar.includes("partyStats.active")) {
-      CONFIG.Actor.trackableAttributes.humanoid.bar.push("partyStats.active");
-      console.log(`${MODULE_ID} | Added partyStats.active to trackable attributes`);
-    }
-  } else {
-    console.warn(`${MODULE_ID} | Could not find CONFIG.Actor.trackableAttributes.humanoid.bar`);
+  if (game.system.id !== "ptr2e") {
+    console.warn(`${MODULE_ID} | This module is designed for the PTR2e system`);
+  }
+
+  trackerRenderer = new TrackerRenderer();
+  trackerRenderer.initialize();
+
+  // Expose globally for token-config real-time preview
+  window.trackerRenderer = trackerRenderer;
+});
+
+Hooks.on("canvasReady", () => {
+  if (trackerRenderer) {
+    trackerRenderer.refresh();
   }
 });
 
-// Refresh trainer tokens when party Pokemon HP changes
-Hooks.on("updateActor", (actor, changes, options, userId) => {
-  if (changes.system?.health?.value !== undefined) {
-    console.log(`${MODULE_ID} | HP changed for ${actor.name}`);
-    const partyMemberOf = actor.system?.party?.partyMemberOf;
-    if (partyMemberOf) {
-      const folder = game.folders.get(partyMemberOf);
-      if (folder) {
-        const owner = folder.contents?.find(a => a.system?.party?.ownerOf === partyMemberOf);
-        if (owner) {
-          console.log(`${MODULE_ID} | Refreshing tokens for owner ${owner.name}`);
-          for (const token of owner.getActiveTokens()) {
-            token.drawBars();
-          }
-        }
-      }
+Hooks.on("refreshToken", (token) => {
+  if (trackerRenderer) {
+    trackerRenderer.refreshToken(token);
+  }
+});
+
+Hooks.on("updateToken", (tokenDoc, changes, options, userId) => {
+  if (trackerRenderer) {
+    const token = tokenDoc.object;
+    if (token) {
+      trackerRenderer.refreshToken(token);
     }
   }
 });
+
+Hooks.on("updateActor", (actor, changes, options, userId) => {
+  if (trackerRenderer) {
+    trackerRenderer.refreshActorTokens(actor);
+  }
+});
+
+Hooks.on("createItem", (item, options, userId) => {
+  if (trackerRenderer && item.parent) {
+    trackerRenderer.refreshActorTokens(item.parent);
+  }
+});
+
+Hooks.on("updateItem", (item, changes, options, userId) => {
+  if (trackerRenderer && item.parent) {
+    trackerRenderer.refreshActorTokens(item.parent);
+  }
+});
+
+Hooks.on("deleteItem", (item, options, userId) => {
+  if (trackerRenderer && item.parent) {
+    trackerRenderer.refreshActorTokens(item.parent);
+  }
+});
+
+Hooks.on("hoverToken", (token, hovered) => {
+  if (trackerRenderer) {
+    trackerRenderer.onTokenHover(token, hovered);
+  }
+});
+
+Hooks.on("controlToken", (token, controlled) => {
+  if (trackerRenderer) {
+    trackerRenderer.onTokenControl(token, controlled);
+  }
+});
+
+Hooks.on("updateSetting", (setting) => {
+  if (setting.key.startsWith(MODULE_ID) && trackerRenderer) {
+    trackerRenderer.refresh();
+  }
+});
+
+export { MODULE_ID, MODULE_VERSION, trackerRenderer };
