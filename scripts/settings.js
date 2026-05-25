@@ -53,7 +53,8 @@ export const DEFAULT_SETTINGS = {
     showWorn: false,
     showAccessory: false,
     showBackpack: false,
-    showStowed: false
+    showStowed: false,
+    showSlotless: false
   },
   partyCap: 6,
   modifiers: {

@@ -176,15 +176,19 @@ export class TrackerRenderer {
   }
 
   clearTrackers(token) {
-    const container = this.trackerContainers.get(token.id);
+    this.clearTrackersById(token.id);
+  }
+
+  clearTrackersById(tokenId) {
+    const container = this.trackerContainers.get(tokenId);
     if (container) {
-      console.log(`${MODULE_ID} | clearTrackers: destroying container for ${token.id}`);
+      console.log(`${MODULE_ID} | clearTrackersById: destroying container for ${tokenId}`);
       // Remove from parent (interface or tokens layer)
       if (container.parent) {
         container.parent.removeChild(container);
       }
       container.destroy({ children: true });
-      this.trackerContainers.delete(token.id);
+      this.trackerContainers.delete(tokenId);
     }
   }
 
@@ -253,7 +257,7 @@ export class TrackerRenderer {
   }
 
   async renderEquipmentTracker(token, settings) {
-    const equipmentData = this.equipmentTracker.getEquipmentData(token.actor);
+    const equipmentData = this.equipmentTracker.getEquipmentData(token.actor, settings);
     if (!equipmentData || equipmentData.length === 0) return;
 
     const container = this.getOrCreateContainer(token);

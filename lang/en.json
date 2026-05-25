@@ -134,6 +134,10 @@
         "name": "Show Stowed Items",
         "hint": "Display stowed (not equipped) items"
       },
+      "equipmentTrackerShowSlotless": {
+        "name": "Show Slotless Items",
+        "hint": "Display items without a specific equipment slot"
+      },
       "partyCap": {
         "name": "Party Cap",
         "hint": "Maximum number of Pokemon slots to display"
@@ -200,6 +204,7 @@
       "showAccessory": "Accessory",
       "showBackpack": "Backpack",
       "showStowed": "Stowed",
+      "showSlotless": "Slotless",
       "resetDefaults": "Reset to Defaults",
       "saveAsDefaults": "Save as Default for",
       "savedAsDefaults": "Saved as defaults for {type} actors"

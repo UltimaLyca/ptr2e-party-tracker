@@ -275,7 +275,7 @@ function gatherFormSettings(tabContent, tracker) {
   // Boolean fields
   const booleanFields = tracker === "partyTracker"
     ? ["enabled", "useSprites"]
-    : ["enabled", "showStackCount", "showBelt", "showHeld", "showWorn", "showAccessory", "showBackpack", "showStowed"];
+    : ["enabled", "showStackCount", "showBelt", "showHeld", "showWorn", "showAccessory", "showBackpack", "showStowed", "showSlotless"];
 
   booleanFields.forEach(field => {
     const input = tabContent.querySelector(`[name="${prefix}.${field}"]`);

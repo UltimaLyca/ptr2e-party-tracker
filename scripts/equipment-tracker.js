@@ -2,8 +2,6 @@
  * EquipmentTracker - Handles belt/equipment data and rendering
  */
 
-import { getSetting } from "./settings.js";
-
 const MODULE_ID = "ptr2e-party-tracker";
 
 export class EquipmentTracker {
@@ -11,7 +9,7 @@ export class EquipmentTracker {
     this.iconCache = new Map();
   }
 
-  getEquipmentData(actor) {
+  getEquipmentData(actor, settings = {}) {
     if (!actor) return [];
 
     const items = actor.items || [];
@@ -20,24 +18,16 @@ export class EquipmentTracker {
     // Types to EXCLUDE (abilities, perks, moves, species info)
     const excludeTypes = ["perk", "ability", "move", "species", "effect", "condition", "action", "feat", "edge", "pokeedge", "capability", "summon"];
 
-    // Get slot visibility settings
-    let showBelt, showHeld, showWorn, showAccessory, showBackpack, showStowed;
-    try {
-      showBelt = getSetting("equipmentTrackerShowBelt");
-      showHeld = getSetting("equipmentTrackerShowHeld");
-      showWorn = getSetting("equipmentTrackerShowWorn");
-      showAccessory = getSetting("equipmentTrackerShowAccessory");
-      showBackpack = getSetting("equipmentTrackerShowBackpack");
-      showStowed = getSetting("equipmentTrackerShowStowed");
-    } catch (e) {
-      // Defaults if settings not registered yet
-      showBelt = true;
-      showHeld = true;
-      showWorn = false;
-      showAccessory = false;
-      showBackpack = false;
-      showStowed = false;
-    }
+    // Get slot visibility from passed settings (with defaults)
+    const {
+      showBelt = true,
+      showHeld = true,
+      showWorn = false,
+      showAccessory = false,
+      showBackpack = false,
+      showStowed = false,
+      showSlotless = false
+    } = settings;
 
     const result = [];
 
@@ -76,10 +66,17 @@ export class EquipmentTracker {
           case "backpack":
             shouldShow = showBackpack;
             break;
+          case "":
+          case "slotless":
+            shouldShow = showSlotless;
+            break;
           default:
-            // Unknown slot - show if any equipped slot is enabled
-            shouldShow = showHeld || showWorn || showAccessory || showBackpack;
+            // Unknown slot - show if slotless is enabled
+            shouldShow = showSlotless;
         }
+      } else if (!carryType || carryType === "") {
+        // Items without carryType are treated as slotless
+        shouldShow = showSlotless;
       }
 
       if (shouldShow) {

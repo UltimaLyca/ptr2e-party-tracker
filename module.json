@@ -2,7 +2,7 @@
   "id": "ptr2e-party-tracker",
   "title": "PTR2e Party Tracker",
   "description": "A visual party tracker for PTR2e that displays Pokemon status, equipment, and belt items as customizable icon bars on tokens.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14"

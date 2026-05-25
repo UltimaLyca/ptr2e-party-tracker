@@ -4,13 +4,13 @@
  * equipment, and belt items as customizable icon bars on tokens.
  */
 
-import { registerSettings } from "./scripts/settings.js";
+import { registerSettings, clearPreviewSettings } from "./scripts/settings.js";
 import { TrackerRenderer } from "./scripts/tracker.js";
 import { registerConfigButton } from "./scripts/config-app.js";
 import { registerTokenConfig } from "./scripts/token-config.js";
 
 const MODULE_ID = "ptr2e-party-tracker";
-const MODULE_VERSION = "2.0.0";
+const MODULE_VERSION = "2.1.0";
 
 let trackerRenderer = null;
 
@@ -58,6 +58,15 @@ Hooks.on("updateToken", (tokenDoc, changes, options, userId) => {
       trackerRenderer.refreshToken(token);
     }
   }
+});
+
+Hooks.on("deleteToken", (tokenDoc, options, userId) => {
+  if (trackerRenderer) {
+    trackerRenderer.clearTrackersById(tokenDoc.id);
+    trackerRenderer.hoveredTokens.delete(tokenDoc.id);
+    trackerRenderer.controlledTokens.delete(tokenDoc.id);
+  }
+  clearPreviewSettings(tokenDoc.id);
 });
 
 Hooks.on("updateActor", (actor, changes, options, userId) => {
