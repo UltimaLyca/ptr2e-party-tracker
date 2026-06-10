@@ -1,5 +1,5 @@
 /**
- * PTR2e Party Tracker v2.0.0
+ * PTR2e Party Tracker v2.1.1
  * A visual party tracker for PTR2e that displays Pokemon status,
  * equipment, and belt items as customizable icon bars on tokens.
  */
@@ -10,7 +10,7 @@ import { registerConfigButton } from "./scripts/config-app.js";
 import { registerTokenConfig } from "./scripts/token-config.js";
 
 const MODULE_ID = "ptr2e-party-tracker";
-const MODULE_VERSION = "2.1.0";
+const MODULE_VERSION = "2.1.1";
 
 let trackerRenderer = null;
 

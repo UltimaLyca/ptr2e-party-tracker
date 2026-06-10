@@ -3,7 +3,7 @@
  * Adds a "Party Tracker" tab to the token configuration window
  */
 
-console.log("=== PTR2E PARTY TRACKER TOKEN-CONFIG.JS LOADED v2.0.2 ===");
+console.log("=== PTR2E PARTY TRACKER TOKEN-CONFIG.JS LOADED v2.1.1 ===");
 
 import {
   MODULE_ID,
@@ -42,7 +42,12 @@ async function onRenderTokenConfig(app, html, data) {
     return;
   }
 
-  console.log(`${MODULE_ID} | Token found:`, token.id, token.name);
+  // Detect if this is a prototype token (no id) vs placed token
+  const isPrototype = !token.id;
+  // For prototype tokens, use actor id as the key; for placed tokens, use token id
+  const settingsKey = isPrototype ? `prototype-${token.parent?.id || token.actor?.id}` : token.id;
+
+  console.log(`${MODULE_ID} | Token found:`, token.id, token.name, `(isPrototype: ${isPrototype}, settingsKey: ${settingsKey})`);
 
   // Get current settings for this token
   const partySettings = getTokenSettings(token, "partyTracker");
@@ -51,7 +56,7 @@ async function onRenderTokenConfig(app, html, data) {
 
   // SET PREVIEW SETTINGS IMMEDIATELY - before any async operations
   // This prevents icons from disappearing during template rendering
-  setPreviewSettings(token.id, {
+  setPreviewSettings(settingsKey, {
     partyTracker: partySettings,
     equipmentTracker: equipSettings
   });
@@ -123,8 +128,13 @@ async function onRenderTokenConfig(app, html, data) {
 
   // Always update the content (in case settings changed)
   tabContent.innerHTML = template;
-  // Store token ID directly on the element as a data attribute (survives re-renders)
-  tabContent.dataset.tokenId = token.id;
+  // Store identifiers on the element (survives re-renders)
+  tabContent.dataset.tokenId = token.id || "";
+  tabContent.dataset.settingsKey = settingsKey;
+  tabContent.dataset.isPrototype = isPrototype;
+  if (isPrototype) {
+    tabContent.dataset.actorId = token.parent?.id || token.actor?.id || "";
+  }
 
   // Manual tab switching since Foundry doesn't know about our new tab
   tabButton.addEventListener("click", (e) => {
@@ -140,7 +150,7 @@ async function onRenderTokenConfig(app, html, data) {
   });
 
   // Activate listeners for our content
-  activateListeners(tabContent, app, token);
+  activateListeners(tabContent, app, token, settingsKey, isPrototype);
 
   // Resize the window to fit new content
   app.setPosition({ height: "auto" });
@@ -149,8 +159,8 @@ async function onRenderTokenConfig(app, html, data) {
 /**
  * Activate event listeners for our tab content
  */
-function activateListeners(tabContent, app, token) {
-  console.log(`${MODULE_ID} | activateListeners called with token:`, token, "id:", token?.id);
+function activateListeners(tabContent, app, token, settingsKey, isPrototype) {
+  console.log(`${MODULE_ID} | activateListeners called with token:`, token, "id:", token?.id, "settingsKey:", settingsKey, "isPrototype:", isPrototype);
 
   // Internal tab switching (party/equipment tabs within our main tab)
   const innerNav = tabContent.querySelector("nav.sheet-tabs[data-group='tracker-tabs']");
@@ -204,24 +214,28 @@ function activateListeners(tabContent, app, token) {
     });
   });
 
-  // Store token ID for preUpdateToken hook (ID is stable, object reference may not be)
+  // Store identifiers for hooks
   tabContent._tokenId = token.id;
-  console.log(`${MODULE_ID} | Stored token ID on tabContent:`, token.id);
+  tabContent._settingsKey = settingsKey;
+  tabContent._isPrototype = isPrototype;
+  console.log(`${MODULE_ID} | Stored settingsKey on tabContent:`, settingsKey);
 
   // Real-time preview: update tracker display when form values change
   const updatePreview = () => {
     const partySettings = gatherFormSettings(tabContent, "partyTracker");
     const equipSettings = gatherFormSettings(tabContent, "equipmentTracker");
 
-    setPreviewSettings(token.id, {
+    setPreviewSettings(settingsKey, {
       partyTracker: partySettings,
       equipmentTracker: equipSettings
     });
 
-    // Trigger tracker refresh for this token
-    const tokenPlaceable = canvas.tokens?.get(token.id);
-    if (tokenPlaceable && window.trackerRenderer) {
-      window.trackerRenderer.refreshToken(tokenPlaceable);
+    // Trigger tracker refresh for placed tokens only (prototype tokens have no canvas representation)
+    if (!isPrototype) {
+      const tokenPlaceable = canvas.tokens?.get(token.id);
+      if (tokenPlaceable && window.trackerRenderer) {
+        window.trackerRenderer.refreshToken(tokenPlaceable);
+      }
     }
   };
 
@@ -234,18 +248,20 @@ function activateListeners(tabContent, app, token) {
   const initPartySettings = gatherFormSettings(tabContent, "partyTracker");
   const initEquipSettings = gatherFormSettings(tabContent, "equipmentTracker");
   console.log(`${MODULE_ID} | Setting preview settings immediately:`, initPartySettings, initEquipSettings);
-  setPreviewSettings(token.id, {
+  setPreviewSettings(settingsKey, {
     partyTracker: initPartySettings,
     equipmentTracker: initEquipSettings
   });
 
-  // Trigger a refresh after a short delay to ensure canvas is ready
-  setTimeout(() => {
-    const initTokenPlaceable = canvas.tokens?.get(token.id);
-    if (initTokenPlaceable && window.trackerRenderer) {
-      window.trackerRenderer.refreshToken(initTokenPlaceable);
-    }
-  }, 100);
+  // Trigger a refresh after a short delay (placed tokens only)
+  if (!isPrototype) {
+    setTimeout(() => {
+      const initTokenPlaceable = canvas.tokens?.get(token.id);
+      if (initTokenPlaceable && window.trackerRenderer) {
+        window.trackerRenderer.refreshToken(initTokenPlaceable);
+      }
+    }, 100);
+  }
 
   // Clean up preview settings only when app is actually closed by user
   // Listen to both v13 and v14 hook names for compatibility
@@ -253,10 +269,12 @@ function activateListeners(tabContent, app, token) {
     app._partyTrackerCloseHooked = true;
     const cleanupHandler = (closedApp) => {
       if (closedApp === app) {
-        clearPreviewSettings(token.id);
-        const tokenPlaceable = canvas.tokens?.get(token.id);
-        if (tokenPlaceable && window.trackerRenderer) {
-          window.trackerRenderer.refreshToken(tokenPlaceable);
+        clearPreviewSettings(settingsKey);
+        if (!isPrototype) {
+          const tokenPlaceable = canvas.tokens?.get(token.id);
+          if (tokenPlaceable && window.trackerRenderer) {
+            window.trackerRenderer.refreshToken(tokenPlaceable);
+          }
         }
       }
     };
@@ -303,7 +321,7 @@ function gatherFormSettings(tabContent, tracker) {
 }
 
 /**
- * Hook into form submission to save our settings
+ * Hook into form submission to save our settings for PLACED tokens
  */
 Hooks.on("preUpdateToken", (tokenDoc, changes, options, userId) => {
   // Find the token config tab for this specific token
@@ -324,4 +342,32 @@ Hooks.on("preUpdateToken", (tokenDoc, changes, options, userId) => {
   // Merge into the update
   foundry.utils.setProperty(changes, `flags.${MODULE_ID}.partyTracker`, partySettings);
   foundry.utils.setProperty(changes, `flags.${MODULE_ID}.equipmentTracker`, equipSettings);
+});
+
+/**
+ * Hook into form submission to save our settings for PROTOTYPE tokens
+ * Prototype tokens are saved via actor.update({ prototypeToken: { ... } })
+ */
+Hooks.on("preUpdateActor", (actor, changes, options, userId) => {
+  // Only process if prototypeToken is being updated
+  if (!changes.prototypeToken) return;
+
+  // Find the token config tab for this actor's prototype token
+  const tabContent = document.querySelector(`[data-tab="party-tracker"][data-is-prototype="true"][data-actor-id="${actor.id}"]`);
+  if (!tabContent) {
+    console.log(`${MODULE_ID} | preUpdateActor: no party-tracker tab found for actor ${actor.id}`);
+    return;
+  }
+
+  console.log(`${MODULE_ID} | preUpdateActor: prototype token match! Saving settings...`);
+
+  // Gather settings from the form
+  const partySettings = gatherFormSettings(tabContent, "partyTracker");
+  const equipSettings = gatherFormSettings(tabContent, "equipmentTracker");
+
+  console.log(`${MODULE_ID} | preUpdateActor: saving prototype settings`, partySettings, equipSettings);
+
+  // Merge into the prototypeToken update
+  foundry.utils.setProperty(changes, `prototypeToken.flags.${MODULE_ID}.partyTracker`, partySettings);
+  foundry.utils.setProperty(changes, `prototypeToken.flags.${MODULE_ID}.equipmentTracker`, equipSettings);
 });
